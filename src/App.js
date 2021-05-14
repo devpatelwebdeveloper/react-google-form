@@ -5,10 +5,19 @@ const nameValidation = (fieldName, fieldValue) => {
   if (fieldValue.trim() === "") {
     return `${fieldName} is required`;
   }
+  if (fieldValue.trim().length < 4) {
+    return `${fieldName} needs to be at least four characters`;
+  }
+  return null;
+};
+const provinceValidation = (fieldName, fieldValue) => {
+  if (fieldValue.trim() === "") {
+    return `${fieldName} is required`;
+  }
   if (/[^a-zA-Z -]/.test(fieldValue)) {
     return "Invalid characters";
   }
-  if (fieldValue.trim().length < 4) {
+  if (fieldValue.trim().length < 2) {
     return `${fieldName} needs to be at least four characters`;
   }
   return null;
@@ -28,17 +37,27 @@ const emailValidation = (email) => {
   return "Please enter a valid email";
 };
 
-const ageValidation = (age) => {
-  if (!age) {
-    return "Age is required";
+const phonenumberValidation = (phone) => {
+  if (/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(phone)) {
+    return null;
   }
-  if (age < 18) {
-    return "Age must be at least 18";
+  if (phone.trim() === "") {
+    return "Phone is required";
   }
-  if (age > 99) {
-    return "Age must be under 99";
+  return "Please enter a valid phone";
+};
+const postalvalidation = (postal) => {
+  if (
+    /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ]( )?\d[ABCEGHJKLMNPRSTVWXYZ]\d$/.test(
+      postal
+    )
+  ) {
+    return null;
   }
-  return null;
+  if (postal.trim() === "") {
+    return "Postal is required";
+  }
+  return "Please enter a valid postal (A2A 2A2)";
 };
 
 const validate = {
@@ -48,11 +67,11 @@ const validate = {
   quickbooksCompanyId: (name) => nameValidation("Quickbooks CompanyId", name),
   merchStreetAddress: (name) => nameValidation("Merchant Street Address", name),
   city: (name) => nameValidation("City", name),
-  province: (name) => nameValidation("Province", name),
-  postal: (name) => nameValidation("Postal Code", name),
-  phone: (name) => nameValidation("Phone Number", name),
-  complaintDetails: (name) => nameValidation("Complaint Details", name),
-  email: emailValidation
+  province: (name) => provinceValidation("Province", name),
+  postal: postalvalidation,
+  phone: phonenumberValidation,
+  email: emailValidation,
+  complaintDetails: (name) => nameValidation("Complaint Details", name)
 };
 
 export default function App() {

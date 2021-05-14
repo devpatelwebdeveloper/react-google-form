@@ -115,7 +115,8 @@ export default function CodeOfConductForm({ validate }) {
         Object.values(values).length && // all fields were touched
       Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
     ) {
-      alert(JSON.stringify(values, null, 2));
+      //Submitting form Data
+      console.log(values);
       //form data with not compulsory data
       const devNoid =
         "1FAIpQLSf2yrQUARhZbk9Zr4AO4ag04-qznvj89HiRJ30TBR2fmoNXSQ";
@@ -140,15 +141,16 @@ export default function CodeOfConductForm({ validate }) {
         url: formUrl,
         query: devnoFormData
       });
-      console.log(values);
       console.log(q);
       submitGoogleForm(q);
+      document.getElementById("form").style.display = "none";
+      document.getElementById("successmessage").style.display = "block";
     }
   };
 
   return (
     <>
-      <form>
+      <form id="form">
         <div className={styles.FormContainer}>
           <div className={styles.form__item}>
             <input
@@ -325,6 +327,9 @@ export default function CodeOfConductForm({ validate }) {
           <button onClick={handleSubmit}>Submit</button>
         </div>
       </form>
+      <div id="successmessage" style={{ display: "none" }}>
+        Form submitted
+      </div>
     </>
   );
 }
