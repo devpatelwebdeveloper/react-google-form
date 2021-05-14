@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styles from "./Form.module.scss";
+import { validate } from "./utils";
 
-export default function CodeOfConductForm({ validate }) {
+export default function CodeOfConductForm() {
   const [values, setValues] = useState({
     email: "",
     firstName: "",
@@ -116,7 +117,6 @@ export default function CodeOfConductForm({ validate }) {
       Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
     ) {
       //Submitting form Data
-      console.log(values);
       //form data with not compulsory data
       const devNoid =
         "1FAIpQLSf2yrQUARhZbk9Zr4AO4ag04-qznvj89HiRJ30TBR2fmoNXSQ";
@@ -137,12 +137,11 @@ export default function CodeOfConductForm({ validate }) {
       const formUrl =
         "https://docs.google.com/forms/d/e/" + devNoid + "/formResponse";
       const queryString = require("query-string");
-      const q = queryString.stringifyUrl({
+      const url = queryString.stringifyUrl({
         url: formUrl,
         query: devnoFormData
       });
-      console.log(q);
-      submitGoogleForm(q);
+      submitGoogleForm(url);
       document.getElementById("form").style.display = "none";
       document.getElementById("successmessage").style.display = "block";
     }
@@ -301,6 +300,7 @@ export default function CodeOfConductForm({ validate }) {
               value={phone}
               onChange={handleChange}
               onBlur={handleBlur}
+              required
             />
             <label htmlFor="phone">Phone number</label>
             <div className={styles.required}>
